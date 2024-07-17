@@ -1,0 +1,94 @@
+<div class="card">
+  <p-table [value]="forms" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>CreatedAt</th>
+              <th>CreatedBy</th>
+              <th>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add</button>
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-form>
+          <tr>
+              <td>{{ form.name }}</td>
+              <td>{{ form.description }}</td>
+              <td>{{ form.createdAt }}</td>
+              <td>{{ form.createdBy }}</td>
+              <td><button type="button" class="btn btn-success" (click)="openForm(form.id)">Open</button></td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Form Template -->
+<div class="modal-body">
+  <div class="myform row">
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+      <div id="fromId">
+        <div class="form-group col-sm-12">
+          <label for="formName">Form Name</label>
+          <input type="text" class="form-control" id="formName" formControlName="formName" placeholder="Form Name">
+        </div>
+        <div class="form-group col-sm-12">
+          <label for="formDescription">Form Description</label>
+          <input type="text" class="form-control" id="formDescription" formControlName="formDescription" placeholder="Form Description">
+        </div>
+        <div class="form-group col-sm-12">
+          <label for="formFields">Fields</label>
+        </div>
+        <div formArrayName="formFields">
+          <div *ngFor="let field of formFields.controls; let i = index" [formGroupName]="i" class="form-group col-sm-12">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="fieldName">Field Name</label>
+                <input type="text" class="form-control" formControlName="fieldName" placeholder="Field Name">
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="fieldType">Data Type</label>
+                <select class="form-control" formControlName="fieldType">
+                  <option value="">Select Type</option>
+                  <option value="STRING">STRING</option>
+                  <option value="NUMBER">NUMBER</option>
+                </select>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck1" formControlName="isFieldRequired">
+                  <label class="form-check-label" for="exampleCheck1">Required?</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="col-sm-3 nopadding">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-btn">
+                  <button class="btn btn-success" type="button" (click)="addField()">Add Field</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+  </div>
+</div>
